@@ -14,13 +14,15 @@
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
-<body class="text-black" style="background: white;">
+<body class="text-black bg-white">
 <div class="flex flex-col justify-between min-h-screen relative">
     <div>
-        <header class="h-20 shrink-0 flex flex-col sm:flex-row items-center sm:justify-between py-4 sm:py-0 px-6">
+        <header class="h-20 fixed top-0 w-full bg-white shadow-md z-50">
             {% include '_navbar.html.twig' %}
         </header>
-        {% block body %}{% endblock %}
+        <main class="pt-20">
+            {% block body %}{% endblock %}
+        </main>
     </div>
     {% include '_footer.html.twig' %}
 </div>
