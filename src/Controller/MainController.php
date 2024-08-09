@@ -15,12 +15,4 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
-
-    #[Route('/account', name: 'account')]
-    public function account(): Response
-    {
-        return $this->render('main/account.html.twig', [
-            'controller_name' => 'MainController',
-        ]);
-    }
 }
