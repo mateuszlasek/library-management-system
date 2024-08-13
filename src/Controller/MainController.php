@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -12,6 +13,22 @@ class MainController extends AbstractController
     public function index(): Response
     {
         return $this->render('main/index.html.twig', [
+            'controller_name' => 'MainController',
+        ]);
+    }
+
+    #[Route('/books', name: 'app_books_list')]
+    public function books(BookRepository $bookRepository): Response
+    {
+        return $this->render('book/books_list.html.twig', [
+            'controller_name' => 'MainController',
+            'books' => $bookRepository->findAll(),
+        ]);
+    }
+    #[Route('/my-account', name: 'app_account')]
+    public function account(): Response
+    {
+        return $this->render('account/account.html.twig', [
             'controller_name' => 'MainController',
         ]);
     }

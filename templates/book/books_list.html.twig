@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book list{% endblock %}
+
+{% block body %}
+    <h1>Book List</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Availability</th>
+            <th>FileName</th>
+            <th>Quantity</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+            <tr>
+                <td>{{ book.id }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.description }}</td>
+                <td>{{ book.category }}</td>
+                <td>{{ book.availability ? 'Yes' : 'No' }}</td>
+                <td><img src="{{ asset('images/' ~ book.fileName) }}" alt="{{ book.title }}"></td>
+                <td>{{ book.quantity }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

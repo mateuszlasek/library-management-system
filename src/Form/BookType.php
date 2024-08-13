@@ -14,28 +14,17 @@ class BookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('author', TextType::class)
-            ->add('description', TextType::class)
-            ->add('category', TextType::class)
-            ->add('availability', TextType::class)
-            ->add('quantity', TextType::class)
-            ->add('fileName', FileType::class, [
-                'label' => 'Cover Image (JPEG, PNG file)',
+            ->add('title')
+            ->add('author')
+            ->add('description')
+            ->add('category')
+            ->add('availability')
+            ->add('quantity')
+            ->add('imageFile', FileType::class, [
+                'label' => 'Book Image',
+                'mapped' => false,
                 'required' => false,
-                'mapped' => false, // Not mapped to the Book entity field
-                'constraints' => [
-                    new \Symfony\Component\Validator\Constraints\Image([
-                        'maxSize' => '5M',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid image',
-                    ]),
-                ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
