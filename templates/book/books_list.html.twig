@@ -16,7 +16,6 @@
             <th>Availability</th>
             <th>FileName</th>
             <th>Quantity</th>
-            <th>actions</th>
         </tr>
         </thead>
         <tbody>
@@ -30,6 +29,7 @@
                 <td>{{ book.availability ? 'Yes' : 'No' }}</td>
                 <td><img src="{{ asset('images/' ~ book.fileName) }}" alt="{{ book.title }}"></td>
                 <td>{{ book.quantity }}</td>
+                <td><button>Borrow a book</button></td>
             </tr>
         {% else %}
             <tr>
