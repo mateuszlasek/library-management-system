@@ -4,9 +4,9 @@ namespace App\Controller;
 use App\Entity\Borrow;
 use App\Entity\User;
 use App\Repository\BorrowRepository;
-use App\Repository\BookRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +29,7 @@ class AdminController extends AbstractController
     {
         $borrowedBooks = $borrowRepository->findBy(['user' => $user, 'returnedAt' => null]);
 
-        return $this->render('admin/borrow_list.html.twig', [
+        return $this->render('admin/user_borrow_list.html.twig', [
             'user' => $user,
             'borrowedBooks' => $borrowedBooks,
         ]);
@@ -45,9 +45,9 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/borrows/return-bulk', name: 'admin_borrow_return_bulk', methods: ['POST'])]
-    public function returnBulkBooks(EntityManagerInterface $entityManager): RedirectResponse
+    public function returnBulkBooks(EntityManagerInterface $entityManager, Request $request): RedirectResponse
     {
-        $borrowIds = $this->request->request->get('borrow_ids', []);
+        $borrowIds = $request->request->get('borrow_ids');
         $borrows = $entityManager->getRepository(Borrow::class)->findBy(['id' => $borrowIds]);
 
         foreach ($borrows as $borrow) {

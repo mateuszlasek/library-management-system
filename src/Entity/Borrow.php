@@ -80,9 +80,7 @@ class Borrow
     {
         $this->returnedAt = new \DateTime();
 
-        if ($this->book) {
-            $this->book->setQuantity($this->book->getQuantity() + 1);
-        }
+        $this->book?->setQuantity($this->book->getQuantity() + 1);
 
         return $this;
     }
