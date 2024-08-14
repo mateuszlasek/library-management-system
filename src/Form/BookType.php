@@ -18,7 +18,6 @@ class BookType extends AbstractType
             ->add('author')
             ->add('description')
             ->add('category')
-            ->add('availability')
             ->add('quantity')
             ->add('imageFile', FileType::class, [
                 'label' => 'Book Image',

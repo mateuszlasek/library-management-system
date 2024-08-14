@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin')]
@@ -21,7 +22,7 @@ class BookController extends AbstractController
     #[Route('/books', name: 'app_book_index', methods: ['GET'])]
     public function index(BookRepository $bookRepository): Response
     {
-        return $this->render('book/index.html.twig', [
+        return $this->render('admin/index.html.twig', [
             'books' => $bookRepository->findAll(),
         ]);
     }
@@ -103,7 +104,6 @@ class BookController extends AbstractController
     }
 
     #[Route('/book/borrow/{id}', name: 'book_borrow')]
-    #[IsGranted('ROLE_USER')]
     public function borrow(Book $book, EntityManagerInterface $entityManager): RedirectResponse
     {
         $user = $this->getUser();
@@ -111,6 +111,12 @@ class BookController extends AbstractController
         if ($book->getQuantity() < 1) {
             $this->addFlash('error', 'This book is not available for borrowing.');
             return $this->redirectToRoute('app_books_list');
+        }
+
+        if ($book->getStatus() === 'available') {
+            $book->setStatus('reserved');
+        } else {
+            $book->setStatus('borrowed');
         }
 
         $borrow = new Borrow();

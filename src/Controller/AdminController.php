@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Borrow;
 use App\Entity\User;
+use App\Repository\BookRepository;
 use App\Repository\BorrowRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,6 +16,32 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
+    #[Route('/admin/dashboard', name: 'admin_dashboard')]
+    public function dashboard(): Response
+    {
+        return $this->render('admin/admin_dashboard.html.twig');
+    }
+
+    #[Route('/admin/reserved-books', name: 'admin_reserved_books')]
+    public function reservedBooks(BookRepository $bookRepository): Response
+    {
+        $books = $bookRepository->findReservedBooks();
+
+        return $this->render('admin/reserved_books.html.twig', [
+            'books' => $books,
+        ]);
+    }
+
+    #[Route('/admin/books/borrowed', name: 'admin_borrowed_books')]
+    public function borrowedBooks(BookRepository $bookRepository): Response
+    {
+        $books = $bookRepository->findBorrowedBooks();
+
+        return $this->render('admin/borrowed_books.html.twig', [
+            'books' => $books,
+        ]);
+    }
+
     #[Route('/admin/users', name: 'admin_user_list')]
     public function userList(UserRepository $userRepository): Response
     {
@@ -45,9 +73,14 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/borrows/return-bulk', name: 'admin_borrow_return_bulk', methods: ['POST'])]
-    public function returnBulkBooks(EntityManagerInterface $entityManager, Request $request): RedirectResponse
+    public function returnBulkBooks(Request $request, EntityManagerInterface $entityManager): RedirectResponse
     {
-        $borrowIds = $request->request->get('borrow_ids');
+        $borrowIds = $request->request->all('borrow_ids');
+
+        if (empty($borrowIds)) {
+            return $this->redirectToRoute('admin_user_list');
+        }
+
         $borrows = $entityManager->getRepository(Borrow::class)->findBy(['id' => $borrowIds]);
 
         foreach ($borrows as $borrow) {

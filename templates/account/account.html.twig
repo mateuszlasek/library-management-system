@@ -5,7 +5,7 @@
 {% block body %}
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_book_index') }}" class="btn btn-primary">Admin Panel</a>
+        <a href="{{ path('admin_dashboard') }}" class="btn btn-primary">Admin Panel</a>
     {% endif %}
 
     {% if groupedBooks is empty %}

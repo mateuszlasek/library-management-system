@@ -6,6 +6,10 @@
     <h1>Manage Borrowed Books</h1>
 
     <form method="post" action="{{ path('admin_borrow_return_bulk') }}">
+        <div class="mb-3">
+            <button type="button" class="btn btn-secondary" onclick="selectAllCheckboxes()">Select All</button>
+            <button type="submit" class="btn btn-success">Mark Selected as Returned</button>
+        </div>
         <table class="table">
             <thead>
             <tr>
@@ -30,6 +34,12 @@
             {% endfor %}
             </tbody>
         </table>
-        <button type="submit" class="btn btn-success">Mark Selected as Returned</button>
     </form>
+
+    <script>
+        function selectAllCheckboxes() {
+            const checkboxes = document.querySelectorAll('input[name="borrow_ids[]"]');
+            checkboxes.forEach(checkbox => checkbox.checked = true);
+        }
+    </script>
 {% endblock %}

@@ -25,8 +25,8 @@ class Book
     #[ORM\Column(length: 255)]
     private ?string $category = null;
 
-    #[ORM\Column]
-    private ?bool $availability = null;
+    #[ORM\Column(length: 20)]
+    private ?string $status = 'available';
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $fileName = null;
@@ -87,15 +87,14 @@ class Book
         return $this;
     }
 
-    public function isAvailability(): ?bool
+    public function getStatus(): ?string
     {
-        return $this->availability;
+        return $this->status;
     }
 
-    public function setAvailability(bool $availability): static
+    public function setStatus(string $status): static
     {
-        $this->availability = $availability;
-
+        $this->status = $status;
         return $this;
     }
 

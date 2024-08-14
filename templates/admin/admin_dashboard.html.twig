@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book index{% endblock %}
+
+{% block body %}
+    <h1>Book index</h1>
+
+    <div class="flex flex-col">
+        <a href="{{ path('admin_reserved_books') }}" class="btn btn-primary">Manage Reserved Books</a>
+        <a href="{{ path('admin_borrowed_books') }}" class="btn btn-primary">Manage Borrowed Books</a>
+        <a href="{{ path('app_book_index') }}" class="btn btn-primary">Manage Books</a>
+        <a href="{{ path('admin_user_list') }}" class="btn btn-primary">Users</a>
+    </div>
+
+
+
+{% endblock %}
