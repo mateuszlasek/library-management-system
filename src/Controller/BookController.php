@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\Borrow;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -74,7 +76,7 @@ class BookController extends AbstractController
     #[Route('/{id}/edit', name: 'app_book_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Book $book, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(Book1Type::class, $book);
+        $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -98,5 +100,31 @@ class BookController extends AbstractController
         }
 
         return $this->redirectToRoute('app_book_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/book/borrow/{id}', name: 'book_borrow')]
+    #[IsGranted('ROLE_USER')]
+    public function borrow(Book $book, EntityManagerInterface $entityManager): RedirectResponse
+    {
+        $user = $this->getUser();
+
+        if ($book->getQuantity() < 1) {
+            $this->addFlash('error', 'This book is not available for borrowing.');
+            return $this->redirectToRoute('app_books_list');
+        }
+
+        $borrow = new Borrow();
+        $borrow->setBook($book);
+        $borrow->setUser($user);
+        $borrow->setBorrowedAt(new \DateTime());
+
+        $book->setQuantity($book->getQuantity() - 1);
+
+        $entityManager->persist($borrow);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Book borrowed successfully.');
+
+        return $this->redirectToRoute('app_books_list');
     }
 }

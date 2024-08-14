@@ -75,4 +75,15 @@ class Borrow
         $this->returnedAt = $returnedAt;
         return $this;
     }
+
+    public function markAsReturned(): self
+    {
+        $this->returnedAt = new \DateTime();
+
+        if ($this->book) {
+            $this->book->setQuantity($this->book->getQuantity() + 1);
+        }
+
+        return $this;
+    }
 }

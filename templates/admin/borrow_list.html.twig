@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage Borrowed Books{% endblock %}
+
+{% block body %}
+    <h1>Manage Borrowed Books</h1>
+
+    <form method="post" action="{{ path('admin_borrow_return_bulk') }}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Select</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>User</th>
+                <th>Borrowed At</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for borrow in borrowedBooks %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="borrow_ids[]" value="{{ borrow.id }}">
+                    </td>
+                    <td>{{ borrow.book.title }}</td>
+                    <td>{{ borrow.book.author }}</td>
+                    <td>{{ borrow.user.email }}</td>
+                    <td>{{ borrow.borrowedAt|date('Y-m-d H:i') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-success">Mark Selected as Returned</button>
+    </form>
+{% endblock %}

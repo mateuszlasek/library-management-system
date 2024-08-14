@@ -1,0 +1,23 @@
+{# templates/admin/user_borrows.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Books Borrowed by {{ user.email }}{% endblock %}
+
+{% block body %}
+    <h1>Books Borrowed by {{ user.email }}</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {% for borrow in borrowedBooks %}
+            <div class="book-item bg-white p-4 rounded-lg shadow-md text-center">
+                <img src="{{ asset('images/' ~ borrow.book.fileName) }}" alt="{{ borrow.book.title }} cover" class="w-auto h-auto max-w-full max-h-64 mx-auto mb-4 rounded-lg">
+                <h2 class="text-lg font-semibold">{{ borrow.book.title }}</h2>
+                <p class="text-gray-600">{{ borrow.book.author }}</p>
+                <p class="text-sm text-gray-500">{{ borrow.book.category }}</p>
+                <p class="text-sm text-gray-500">Borrowed at: {{ borrow.borrowedAt|date('Y-m-d H:i') }}</p>
+            </div>
+        {% else %}
+            <p>No borrowed books found.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

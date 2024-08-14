@@ -5,6 +5,10 @@
 {% block body %}
     <h1>Book index</h1>
 
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('admin_user_list') }}" class="btn btn-primary">Manage Borrowed Books</a>
+    {% endif %}
+
     <table class="table">
         <thead>
             <tr>
