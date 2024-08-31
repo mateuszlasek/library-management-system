@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book List{% endblock %}
+
+{% block body %}
+    <h1>Book List</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {% for book in books %}
+            <div class="book-item bg-white p-4 rounded-lg shadow-md text-center">
+                <img src="{{ asset('images/' ~ book.fileName) }}" alt="{{ book.title }} cover" class="w-auto h-auto max-w-full max-h-64 mx-auto mb-4 rounded-lg">
+                <h2 class="text-lg font-semibold">{{ book.title }}</h2>
+                <p class="text-gray-600">{{ book.author }}</p>
+                <p class="text-sm text-gray-500">{{ book.category }}</p>
+                <p class="text-sm text-black mt-2">Available: {{ book.quantity }}</p>
+
+                {% if book.quantity > 0 %}
+                    <p class="mt-2 text-black">
+                        <a href="{{ path('book_borrow', {'id': book.id}) }}" class="btn btn-primary">Borrow</a>
+                    </p>
+                {% else %}
+                    <p class="mt-2 text-red-600">Not available</p>
+                    <button class="btn btn-secondary" disabled>Borrow</button>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
