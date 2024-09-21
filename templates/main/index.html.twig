@@ -1,10 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Strona główna{% endblock %}
+{% block title %}Online Library{% endblock %}
 
 {% block body %}
-    <div class="mb-6 md:mb-0">
-        <h1 class="text-4xl mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1>
-        <p class="text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</p>
+    <div class="bg-[#f9fafb] py-12">
+        <div class="container mx-auto text-center">
+            <h1 class="text-5xl font-bold mb-4">Welcome to Our Online Library</h1>
+            <p class="text-lg mb-8">Explore a world of knowledge and imagination. Dive into our vast collection of books, eBooks, and resources tailored for all ages and interests.</p>
+            <a href="{{ path('app_books_list') }}" class="bg-[#0086C4] text-white py-3 px-6 rounded-lg hover:bg-[#006fa1] transition">Browse Our Collection</a>
+        </div>
+    </div>
+
+    <div class="py-12">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-semibold mb-6">Why Choose Us?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-6 bg-white rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Wide Selection</h3>
+                    <p>From classics to contemporary works, we offer a diverse range of titles to suit every reader.</p>
+                </div>
+                <div class="p-6 bg-white rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Accessible Anytime</h3>
+                    <p>Our library is open 24/7, allowing you to read anytime, anywhere.</p>
+                </div>
+                <div class="p-6 bg-white rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Community Engagement</h3>
+                    <p>Join book clubs, participate in events, and connect with fellow book lovers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-12 bg-[#f9fafb]">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-semibold mb-6">Join Us Today!</h2>
+            <p class="mb-4">Sign up now to unlock exclusive features and access to premium content.</p>
+{#            <a href="{{ path('app_register') }}" class="bg-[#0086C4] text-white py-3 px-6 rounded-lg hover:bg-[#006fa1] transition">Sign Up</a>#}
+        </div>
     </div>
 {% endblock %}
