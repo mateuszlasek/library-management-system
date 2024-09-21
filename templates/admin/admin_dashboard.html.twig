@@ -1,17 +1,37 @@
+{# templates/admin/dashboard.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Book index{% endblock %}
+{% block title %}Admin Dashboard{% endblock %}
 
 {% block body %}
-    <h1>Book index</h1>
+    <div class="flex h-screen bg-white">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-blue-100 text-gray-800 h-full border-r border-blue-200">
+            <div class="p-4 text-lg font-semibold text-blue-600">Admin Dashboard</div>
+            <nav class="mt-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="{{ path('admin_reserved_books') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-200 hover:text-blue-900 rounded">Manage Reserved Books</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_borrowed_books') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-200 hover:text-blue-900 rounded">Manage Borrowed Books</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_book_index') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-200 hover:text-blue-900 rounded">Manage Books</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_user_list') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-200 hover:text-blue-900 rounded">Users</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
 
-    <div class="flex flex-col">
-        <a href="{{ path('admin_reserved_books') }}" class="btn btn-primary">Manage Reserved Books</a>
-        <a href="{{ path('admin_borrowed_books') }}" class="btn btn-primary">Manage Borrowed Books</a>
-        <a href="{{ path('app_book_index') }}" class="btn btn-primary">Manage Books</a>
-        <a href="{{ path('admin_user_list') }}" class="btn btn-primary">Users</a>
+        <!-- Main Content -->
+        <main class="flex-1 p-6 bg-gray-50">
+            <h1 class="text-2xl font-bold mb-4 text-blue-600">Welcome to Admin Dashboard</h1>
+            <div class="bg-white shadow-md rounded-lg p-6 border border-blue-200">
+                <p class="text-gray-600">This section will contain charts and statistics in the future.</p>
+            </div>
+        </main>
     </div>
-
-
-
 {% endblock %}

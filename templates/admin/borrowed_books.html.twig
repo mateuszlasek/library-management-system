@@ -1,24 +1,29 @@
+{# templates/book/book_list.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Book List{% endblock %}
 
 {% block body %}
-    <h1>Book List</h1>
+    <div class="p-6 bg-gray-50 min-h-screen">
+        <h1 class="text-3xl font-bold text-center text-blue-600 mb-8">Book List</h1>
 
-    <div class="">
-        {% for book in books %}
-            {% if book.quantity > 0 %}
-                <div class="book-item bg-white p-4 rounded-lg shadow-md text-center">
-                    <img src="{{ asset('images/' ~ book.fileName) }}" alt="{{ book.title }} cover" class="w-auto h-auto max-w-full max-h-64 mx-auto mb-4 rounded-lg">
-                    <h2 class="text-lg font-semibold">{{ book.title }}</h2>
-                    <p class="text-gray-600">{{ book.author }}</p>
-                    <p class="text-sm text-gray-500">{{ book.category }}</p>
-                    <p class="text-sm text-black mt-2">Available: {{ book.quantity }}</p>
-                    <p class="mt-2 text-black">
-                        <a href="{{ path('book_borrow', {'id': book.id}) }}" class="btn btn-primary">Borrow</a>
-                    </p>
-                </div>
-            {% endif %}
-        {% endfor %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for book in books %}
+                {% if book.quantity > 0 %}
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-blue-200 text-center">
+                        <img src="{{ asset('images/' ~ book.fileName) }}" alt="{{ book.title }} cover" class="w-auto h-auto max-w-full max-h-64 mx-auto mb-4 rounded-lg">
+                        <h2 class="text-lg font-semibold text-blue-800">{{ book.title }}</h2>
+                        <p class="text-gray-600">{{ book.author }}</p>
+                        <p class="text-sm text-gray-500">{{ book.category }}</p>
+                        <p class="text-sm text-black mt-2">Available: <span class="font-bold">{{ book.quantity }}</span></p>
+                        <p class="mt-4">
+                            <a href="{{ path('book_borrow', {'id': book.id}) }}" class="inline-block bg-blue-200 hover:bg-blue-300 text-blue-800 hover:text-blue-900 py-2 px-4 rounded transition-colors">
+                                Borrow
+                            </a>
+                        </p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

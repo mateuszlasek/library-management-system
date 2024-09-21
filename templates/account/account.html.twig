@@ -1,29 +1,32 @@
+{# templates/account/my_account.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}My Account{% endblock %}
 
 {% block body %}
+    <div class="p-6 bg-gray-50 min-h-screen">
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('admin_dashboard') }}" class="inline-block mb-4 px-4 py-2 bg-blue-200 text-blue-800 hover:bg-blue-300 hover:text-blue-900 rounded transition-colors">
+                Admin Panel
+            </a>
+        {% endif %}
 
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('admin_dashboard') }}" class="btn btn-primary">Admin Panel</a>
-    {% endif %}
-
-    {% if groupedBooks is empty %}
-        <p>You haven't borrowed any books currently.</p>
-    {% else %}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {% for bookInfo in groupedBooks %}
-                <div class="book-item bg-white p-4 rounded-lg shadow-md text-center">
-                    <img src="{{ asset('images/' ~ bookInfo.book.fileName) }}" alt="{{ bookInfo.book.title }} cover" class="w-auto h-auto max-w-full max-h-64 mx-auto mb-4 rounded-lg">
-                    <h2 class="text-lg font-semibold">{{ bookInfo.book.title }}</h2>
-                    <p class="text-gray-600">{{ bookInfo.book.author }}</p>
-                    <p class="text-sm text-gray-500">{{ bookInfo.book.category }}</p>
-                    <p class="text-sm text-black mt-2">
-                        Borrowed: <strong>{{ bookInfo.count }}</strong> {{ bookInfo.count == 1 ? 'copy' : 'copies' }}
-                    </p>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
+        {% if groupedBooks is empty %}
+            <p class="text-gray-600">You haven't borrowed any books currently.</p>
+        {% else %}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {% for bookInfo in groupedBooks %}
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-blue-200 text-center">
+                        <img src="{{ asset('images/' ~ bookInfo.book.fileName) }}" alt="{{ bookInfo.book.title }} cover" class="w-auto h-auto max-w-full max-h-64 mx-auto mb-4 rounded-lg">
+                        <h2 class="text-lg font-semibold text-blue-800">{{ bookInfo.book.title }}</h2>
+                        <p class="text-gray-600">{{ bookInfo.book.author }}</p>
+                        <p class="text-sm text-gray-500">{{ bookInfo.book.category }}</p>
+                        <p class="text-sm text-black mt-2">
+                            Borrowed: <strong>{{ bookInfo.count }}</strong> {{ bookInfo.count == 1 ? 'copy' : 'copies' }}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
