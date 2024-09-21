@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     {% block stylesheets %}
     {% endblock %}
 
@@ -11,36 +13,52 @@
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
-<body class="text-white" style="background: radial-gradient(102.21% 102.21% at 50% 28.75%, #00121C 42.62%, #013954 100%);">
+<body class="text-gray-800 bg-gray-50">
 <div class="flex flex-col justify-between min-h-screen relative">
     <div>
-        <header class="h-[114px] shrink-0 flex flex-col sm:flex-row items-center sm:justify-between py-4 sm:py-0 px-6 border-b border-white/20 shadow-md">
-            <a href="#">
+        <header class="bg-blue-100 h-[114px] shrink-0 flex flex-col sm:flex-row items-center sm:justify-between py-4 sm:py-0 px-6 border-b border-blue-200 shadow-md">
+            <a href="#" class="text-xl font-semibold text-blue-800">
                 logo
             </a>
-            <nav class="flex space-x-4 font-semibold">
-                <a class="hover:text-amber-400 pt-2" href="{{ path('app_main') }}">
+            <nav class="flex-1 flex justify-center space-x-4 font-semibold text-blue-600">
+                <a class="hover:text-blue-700 pt-2" href="{{ path('app_main') }}">
                     Home
                 </a>
-                <a class="hover:text-amber-400  pt-2" href="{{ path('app_books_list') }}">
+                <a class="hover:text-blue-700 pt-2" href="{{ path('app_books_list') }}">
                     Books
                 </a>
-                <a class="hover:text-amber-400 pt-2" href="#">
+                <a class="hover:text-blue-700 pt-2" href="#">
+                    Contact
+                </a>
+                <a class="hover:text-blue-700 pt-2" href="#">
                     Search
                 </a>
-                <a class="rounded-[60px] py-2 px-5 bg-white/10 hover:bg-white/20" href="{{ path('app_account') }}">
-                    My account
-                </a>
-                <a class="rounded-[60px] py-2 px-5 bg-white/10 hover:bg-white/20" href="{{ path('app_login') }}">
-                    Login
-                </a>
             </nav>
+            <div class="flex space-x-4 ml-auto items-center">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div class="relative group flex space-x-4">
+                        <a class="rounded-[60px] py-2 px-5 bg-blue-200 hover:bg-blue-300 text-blue-800 hover:text-blue-900 transition-colors flex items-center space-x-2" href="{{ path('app_account') }}">
+                            <i class="fas fa-user-circle"></i>
+                            <span>My account</span>
+                        </a>
+                        <a class="rounded-[60px] py-2 px-5 bg-blue-200 hover:bg-blue-300 text-red-500 flex items-center space-x-2" href="{{ path('app_logout') }}">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                {% else %}
+                    <a class="rounded-[60px] py-2 px-5 bg-blue-200 hover:bg-blue-300 text-blue-800 hover:text-blue-900 transition-colors flex items-center space-x-2" href="{{ path('app_login') }}">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                {% endif %}
+            </div>
         </header>
         {% block body %}{% endblock %}
     </div>
-    <div class="p-5 bg-white/5 mt-3 text-center">
-        Made with ❤️ by <a class="text-[#0086C4]" href="https://symfonycasts.com">SymfonyCasts</a>
-    </div>
+    <footer class="p-5 bg-blue-100 text-center border-t border-blue-200">
+        Made with ❤️ by <a class="text-blue-600 hover:text-blue-700" href="https://symfonycasts.com">SymfonyCasts</a>
+    </footer>
 </div>
 </body>
 </html>

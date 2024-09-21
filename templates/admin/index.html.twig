@@ -1,45 +1,54 @@
+{# templates/book/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Book index{% endblock %}
+{% block title %}Book Index{% endblock %}
 
 {% block body %}
+    <div class="p-6 bg-gray-50 min-h-screen">
+        <h1 class="text-3xl font-bold text-center text-blue-600 mb-8">Book Index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>FileName</th>
-                <th>Quantity</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for book in books %}
-            <tr>
-                <td>{{ book.id }}</td>
-                <td>{{ book.title }}</td>
-                <td>{{ book.author }}</td>
-                <td>{{ book.description }}</td>
-                <td>{{ book.category }}</td>
-                <td>{{ book.fileName }}</td>
-                {# <td><img src="{{ asset('images/' ~ book.fileName) }}" alt="{{ book.title }}"></td> #}
-                <td>{{ book.quantity }}</td>
-                <td>
-                    <a href="{{ path('app_book_show', {'id': book.id}) }}">show</a>
-                    <a href="{{ path('app_book_edit', {'id': book.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div class="overflow-x-auto">
+            <table class="w-full bg-white border border-blue-200 rounded-lg shadow-md">
+                <thead class="bg-blue-100">
+                <tr class="text-left">
+                    <th class="px-4 py-2 border-b border-blue-200">Id</th>
+                    <th class="px-4 py-2 border-b border-blue-200">Title</th>
+                    <th class="px-4 py-2 border-b border-blue-200">Author</th>
+                    <th class="px-4 py-2 border-b border-blue-200">Description</th>
+                    <th class="px-4 py-2 border-b border-blue-200">Category</th>
+                    <th class="px-4 py-2 border-b border-blue-200">FileName</th>
+                    <th class="px-4 py-2 border-b border-blue-200">Quantity</th>
+                    <th class="px-4 py-2 border-b border-blue-200">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for book in books %}
+                    <tr class="hover:bg-blue-50 transition-colors">
+                        <td class="px-4 py-2 border-b border-blue-100">{{ book.id }}</td>
+                        <td class="px-4 py-2 border-b border-blue-100">{{ book.title }}</td>
+                        <td class="px-4 py-2 border-b border-blue-100">{{ book.author }}</td>
+                        <td class="px-4 py-2 border-b border-blue-100">{{ book.description }}</td>
+                        <td class="px-4 py-2 border-b border-blue-100">{{ book.category }}</td>
+                        <td class="px-4 py-2 border-b border-blue-100">{{ book.fileName }}</td>
+                        <td class="px-4 py-2 border-b border-blue-100">{{ book.quantity }}</td>
+                        <td class="px-4 py-2 border-b border-blue-100 space-x-2">
+                            <a href="{{ path('app_book_show', {'id': book.id}) }}" class="text-blue-600 hover:text-blue-800 transition-colors">show</a>
+                            <a href="{{ path('app_book_edit', {'id': book.id}) }}" class="text-blue-600 hover:text-blue-800 transition-colors">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="px-4 py-2 text-center text-gray-500">No records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <a href="{{ path('app_book_new') }}">Create new</a>
+        <div class="mt-6 text-center">
+            <a href="{{ path('app_book_new') }}" class="inline-block bg-blue-200 hover:bg-blue-300 text-blue-800 py-2 px-4 rounded transition-colors">
+                Create new
+            </a>
+        </div>
+    </div>
 {% endblock %}

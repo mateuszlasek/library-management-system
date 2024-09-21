@@ -1,45 +1,60 @@
+{# templates/admin/manage_borrowed_books.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Manage Borrowed Books{% endblock %}
 
 {% block body %}
-    <h1>Manage Borrowed Books</h1>
+    <div class="p-6 bg-gray-50 min-h-screen">
+        <h1 class="text-3xl font-bold text-center text-blue-600 mb-8">Manage Borrowed Books</h1>
 
-    <form method="post" action="{{ path('admin_borrow_return_bulk') }}">
-        <div class="mb-3">
-            <button type="button" class="btn btn-secondary" onclick="selectAllCheckboxes()">Select All</button>
-            <button type="submit" class="btn btn-success">Mark Selected as Returned</button>
-        </div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Select</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>User</th>
-                <th>Borrowed At</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for borrow in borrowedBooks %}
-                <tr>
-                    <td>
-                        <input type="checkbox" name="borrow_ids[]" value="{{ borrow.id }}">
-                    </td>
-                    <td>{{ borrow.book.title }}</td>
-                    <td>{{ borrow.book.author }}</td>
-                    <td>{{ borrow.user.email }}</td>
-                    <td>{{ borrow.borrowedAt|date('Y-m-d H:i') }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </form>
+        <form method="post" action="{{ path('admin_borrow_return_bulk') }}">
+            <div class="mb-5 flex justify-between">
+                <button type="button" class="bg-blue-200 hover:bg-blue-300 text-blue-800 py-2 px-4 rounded transition-colors" onclick="selectAllCheckboxes()">
+                    Select All
+                </button>
+                <button type="submit" class="bg-green-200 hover:bg-green-300 text-green-800 py-2 px-4 rounded transition-colors">
+                    Mark Selected as Returned
+                </button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full bg-white border border-blue-200 rounded-lg shadow-md">
+                    <thead class="bg-blue-100">
+                    <tr class="text-left">
+                        <th class="px-4 py-2 border-b border-blue-200"><input type="checkbox" onclick="toggleAllCheckboxes(this)"></th>
+                        <th class="px-4 py-2 border-b border-blue-200">Title</th>
+                        <th class="px-4 py-2 border-b border-blue-200">Author</th>
+                        <th class="px-4 py-2 border-b border-blue-200">User</th>
+                        <th class="px-4 py-2 border-b border-blue-200">Borrowed At</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for borrow in borrowedBooks %}
+                        <tr class="hover:bg-blue-50 transition-colors">
+                            <td class="px-4 py-2 border-b border-blue-100">
+                                <input type="checkbox" name="borrow_ids[]" value="{{ borrow.id }}">
+                            </td>
+                            <td class="px-4 py-2 border-b border-blue-100">{{ borrow.book.title }}</td>
+                            <td class="px-4 py-2 border-b border-blue-100">{{ borrow.book.author }}</td>
+                            <td class="px-4 py-2 border-b border-blue-100">{{ borrow.user.email }}</td>
+                            <td class="px-4 py-2 border-b border-blue-100">{{ borrow.borrowedAt|date('Y-m-d H:i') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
 
     <script>
         function selectAllCheckboxes() {
             const checkboxes = document.querySelectorAll('input[name="borrow_ids[]"]');
             checkboxes.forEach(checkbox => checkbox.checked = true);
+        }
+
+        function toggleAllCheckboxes(source) {
+            const checkboxes = document.querySelectorAll('input[name="borrow_ids[]"]');
+            checkboxes.forEach(checkbox => checkbox.checked = source.checked);
         }
     </script>
 {% endblock %}
