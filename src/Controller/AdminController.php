@@ -22,26 +22,6 @@ class AdminController extends AbstractController
         return $this->render('admin/admin_dashboard.html.twig');
     }
 
-    #[Route('/admin/reserved-books', name: 'admin_reserved_books')]
-    public function reservedBooks(BookRepository $bookRepository): Response
-    {
-        $books = $bookRepository->findReservedBooks();
-
-        return $this->render('admin/reserved_books.html.twig', [
-            'books' => $books,
-        ]);
-    }
-
-    #[Route('/admin/books/borrowed', name: 'admin_borrowed_books')]
-    public function borrowedBooks(BookRepository $bookRepository): Response
-    {
-        $books = $bookRepository->findBorrowedBooks();
-
-        return $this->render('admin/borrowed_books.html.twig', [
-            'books' => $books,
-        ]);
-    }
-
     #[Route('/admin/users', name: 'admin_user_list')]
     public function userList(UserRepository $userRepository): Response
     {

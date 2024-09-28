@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\BookRepository;
 use App\Repository\BorrowRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -19,13 +20,24 @@ class MainController extends AbstractController
     }
 
     #[Route('/books', name: 'app_books_list')]
-    public function books(BookRepository $bookRepository): Response
+    public function books(BookRepository $bookRepository, Request $request): Response
     {
+        $page = $request->query->getInt('page', 1);
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+
+        $books = $bookRepository->findBy([], null, $limit, $offset);
+        $totalBooks = count($bookRepository->findAll());
+        $totalPages = ceil($totalBooks / $limit);
+
         return $this->render('book/books_list.html.twig', [
             'controller_name' => 'MainController',
-            'books' => $bookRepository->findAll(),
+            'books' => $books,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
         ]);
     }
+
     #[Route('/my-account', name: 'app_account')]
     public function account(BorrowRepository $borrowRepository): Response
     {

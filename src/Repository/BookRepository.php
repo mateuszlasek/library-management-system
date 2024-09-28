@@ -24,22 +24,4 @@ class BookRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-    public function findReservedBooks(): array
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.status = :status')
-            ->setParameter('status', 'reserved')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findBorrowedBooks(): array
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.status = :status')
-            ->setParameter('status', 'borrowed')
-            ->getQuery()
-            ->getResult();
-    }
 }
