@@ -113,12 +113,6 @@ class BookController extends AbstractController
             return $this->redirectToRoute('app_books_list');
         }
 
-        if ($book->getStatus() === 'available') {
-            $book->setStatus('reserved');
-        } else {
-            $book->setStatus('borrowed');
-        }
-
         $borrow = new Borrow();
         $borrow->setBook($book);
         $borrow->setUser($user);
