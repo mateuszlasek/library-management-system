@@ -23,7 +23,7 @@ class MainController extends AbstractController
     public function books(BookRepository $bookRepository, Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
-        $limit = 2;
+        $limit = 20;
         $offset = ($page - 1) * $limit;
 
         $books = $bookRepository->findBy([], null, $limit, $offset);
