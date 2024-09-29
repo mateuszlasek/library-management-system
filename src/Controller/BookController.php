@@ -20,10 +20,21 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class BookController extends AbstractController
 {
     #[Route('/books', name: 'app_book_index', methods: ['GET'])]
-    public function index(BookRepository $bookRepository): Response
+    public function index(BookRepository $bookRepository, Request $request): Response
     {
+        $page = $request->query->getInt('page', 1);
+        $limit = 2;
+        $offset = ($page - 1) * $limit;
+
+        $totalBooks = $bookRepository->count([]);
+        $books = $bookRepository->findBy([], null, $limit, $offset);
+
+        $totalPages = ceil($totalBooks / $limit);
+
         return $this->render('admin/index.html.twig', [
-            'books' => $bookRepository->findAll(),
+            'books' => $books,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
         ]);
     }
 
