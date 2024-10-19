@@ -1,0 +1,29 @@
+<div id="book-list" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {% for book in books %}
+        <div class="book-item bg-white p-4 rounded-lg shadow-md text-center">
+            <div class="image-container mx-auto mb-4" style="width: 200px; height: 300px;">
+                {% if book.fileName is not null and book.fileName is not empty %}
+                    <img src="{{ asset('images/' ~ book.fileName) }}" alt="{{ book.title }} cover" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/no-image.png') }}';">
+                {% else %}
+                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                        <span class="text-gray-500">No image available</span>
+                    </div>
+                {% endif %}
+            </div>
+            <h2 class="text-lg font-semibold">{{ book.title }}</h2>
+            <p class="text-gray-600">{{ book.author }}</p>
+            <p class="text-sm text-gray-500">{{ book.category }}</p>
+            <p class="text-sm text-black mt-2">Available: {{ book.quantity }}</p>
+            {% if book.quantity > 0 %}
+                <p class="mt-2 font-semibold text-blue-600">
+                    <a href="{{ is_granted('IS_AUTHENTICATED_FULLY') ? path('book_borrow', {'id': book.id}) : path('app_login') }}" class="btn btn-primary">
+                        Borrow
+                    </a>
+                </p>
+            {% else %}
+                <p class="mt-2 text-red-600">Not available</p>
+                <button class="btn btn-secondary" disabled>Borrow</button>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>

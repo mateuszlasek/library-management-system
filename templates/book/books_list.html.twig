@@ -3,13 +3,23 @@
 {% block title %}Book List{% endblock %}
 
 {% block body %}
-    {% if books is empty %}
-        <div class="text-center text-gray-600 mt-6">
-            <p>No books available at the moment.</p>
+    <div class="container mx-auto px-4 py-6">
+        <div class="flex items-center mb-4">
+            <input type="text"
+                   data-controller="search"
+                   data-search-url="{{ path('app_book_search') }}"
+                   data-action="input->search#search"
+                   placeholder="Search books..."
+                   class="border rounded p-2 w-full"
+                   id="search-input" />
         </div>
-    {% else %}
-        <div class="container mx-auto px-4 py-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        {% if books is empty %}
+            <div class="text-center text-gray-600 mt-6">
+                <p>No books available at the moment.</p>
+            </div>
+        {% else %}
+            <div id="book-list" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {% for book in books %}
                     <div class="book-item bg-white p-4 rounded-lg shadow-md text-center">
                         <div class="image-container mx-auto mb-4" style="width: 200px; height: 300px;">
@@ -25,7 +35,6 @@
                         <p class="text-gray-600">{{ book.author }}</p>
                         <p class="text-sm text-gray-500">{{ book.category }}</p>
                         <p class="text-sm text-black mt-2">Available: {{ book.quantity }}</p>
-
                         {% if book.quantity > 0 %}
                             <p class="mt-2 font-semibold text-blue-600">
                                 <a href="{{ is_granted('IS_AUTHENTICATED_FULLY') ? path('book_borrow', {'id': book.id}) : path('app_login') }}" class="btn btn-primary">
@@ -71,6 +80,6 @@
                     </nav>
                 </div>
             {% endif %}
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 {% endblock %}

@@ -24,4 +24,14 @@ class BookRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findBySearchTerm(string $searchTerm): array
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->where('b.title LIKE :searchTerm OR b.author LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . $searchTerm . '%');
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

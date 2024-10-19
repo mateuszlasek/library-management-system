@@ -138,4 +138,16 @@ class BookController extends AbstractController
 
         return $this->redirectToRoute('app_books_list');
     }
+
+    #[Route('/book/search', name: 'app_book_search')]
+    public function search(Request $request, BookRepository $bookRepository): Response
+    {
+        $searchTerm = $request->query->get('query');
+        $books = $bookRepository->findBySearchTerm($searchTerm);
+
+        return $this->render('book/_book_list.html.twig', [
+            'books' => $books,
+        ]);
+    }
+
 }
