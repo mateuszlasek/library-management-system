@@ -1,21 +1,46 @@
+{# templates/book/search_results.html.twig #}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Wyniki wyszukiwania{% endblock %}
+{% block title %}Search Results{% endblock %}
 
 {% block body %}
-    <h1 class="text-2xl font-bold mb-4">Wyniki wyszukiwania dla "{{ searchTerm }}"</h1>
+    <div class="container mx-auto px-4 py-6">
 
-    {% if books is empty %}
-        <p>Brak wyników dla zapytania "{{ searchTerm }}".</p>
-    {% else %}
-        <ul>
-            {% for book in books %}
-                <li>
-                    <h2 class="font-semibold">{{ book.title }}</h2>
-                    <p>Autor: {{ book.author }}</p>
-                    <p>Kategoria: {{ book.category }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+        {% if books is empty %}
+            <div class="text-center text-gray-600 mt-6">
+                <p>No results found for "{{ searchTerm }}".</p>
+            </div>
+        {% else %}
+            <div id="book-list" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {% for book in books %}
+                    <div class="book-item bg-white p-4 rounded-lg shadow-md text-center">
+                        <div class="image-container mx-auto mb-4" style="width: 200px; height: 300px;">
+                            {% if book.fileName is not null and book.fileName is not empty %}
+                                <img src="{{ asset('images/' ~ book.fileName) }}" alt="{{ book.title }} cover" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/no-image.png') }}';">
+                            {% else %}
+                                <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                    <span class="text-gray-500">No image available</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <h2 class="text-lg font-semibold">{{ book.title }}</h2>
+                        <p class="text-gray-600">{{ book.author }}</p>
+                        <p class="text-sm text-gray-500">{{ book.category }}</p>
+                        <p class="text-sm text-black mt-2">Available: {{ book.quantity }}</p>
+                        {% if book.quantity > 0 %}
+                            <p class="mt-2 font-semibold text-blue-600">
+                                <a href="{{ is_granted('IS_AUTHENTICATED_FULLY') ? path('book_borrow', {'id': book.id}) : path('app_login') }}" class="btn btn-primary">
+                                    Borrow
+                                </a>
+                            </p>
+                        {% else %}
+                            <p class="mt-2 text-red-600">Not available</p>
+                            <button class="btn btn-secondary" disabled>Borrow</button>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
