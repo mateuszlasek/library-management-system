@@ -20,7 +20,7 @@
             <a href="#" class="text-xl font-semibold text-blue-800">
                 logo
             </a>
-            <nav class="flex-1 flex justify-center space-x-4 font-semibold text-blue-600">
+            <nav class="flex-1 flex justify-center space-x-4 font-semibold text-blue-600 items-center">
                 <a class="hover:text-blue-700 pt-2" href="{{ path('app_main') }}">
                     Home
                 </a>
@@ -30,9 +30,14 @@
                 <a class="hover:text-blue-700 pt-2" href="#">
                     Contact
                 </a>
-                <a class="hover:text-blue-700 pt-2" href="#">
-                    Search
-                </a>
+
+                <!-- Pasek wyszukiwania -->
+                <form action="{{ path('app_book_search') }}" method="get" class="flex items-center border rounded-lg overflow-hidden bg-white">
+                    <input type="text" name="query" placeholder="Search..." class="px-3 py-2 text-gray-700 outline-none w-32 sm:w-48" />
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 transition">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
             </nav>
             <div class="flex space-x-4 ml-auto items-center">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}

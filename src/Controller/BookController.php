@@ -16,10 +16,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/admin')]
 class BookController extends AbstractController
 {
-    #[Route('/books', name: 'app_book_index', methods: ['GET'])]
+    #[Route('/admin/books', name: 'app_book_index', methods: ['GET'])]
     public function index(BookRepository $bookRepository, Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
@@ -38,7 +37,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/book/new', name: 'app_book_new')]
+    #[Route('/admin/book/new', name: 'app_book_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $book = new Book();
@@ -77,7 +76,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/book/{id}', name: 'app_book_show', methods: ['GET'])]
+    #[Route('/admin/book/{id}', name: 'app_book_show', methods: ['GET'])]
     public function show(Book $book): Response
     {
         return $this->render('book/show.html.twig', [
@@ -85,7 +84,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_book_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/{id}/edit', name: 'app_book_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Book $book, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(BookType::class, $book);
@@ -103,7 +102,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_book_delete', methods: ['POST'])]
+    #[Route('/admin/{id}', name: 'app_book_delete', methods: ['POST'])]
     public function delete(Request $request, Book $book, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$book->getId(), $request->getPayload()->getString('_token'))) {
@@ -114,7 +113,7 @@ class BookController extends AbstractController
         return $this->redirectToRoute('app_book_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/book/borrow/{id}', name: 'book_borrow')]
+    #[Route('/admin/book/borrow/{id}', name: 'book_borrow')]
     public function borrow(Book $book, EntityManagerInterface $entityManager): RedirectResponse
     {
         $user = $this->getUser();
@@ -139,15 +138,19 @@ class BookController extends AbstractController
         return $this->redirectToRoute('app_books_list');
     }
 
-    #[Route('/book/search', name: 'app_book_search')]
+    #[Route('/book/search', name: 'app_book_search', methods: ['GET'])]
     public function search(Request $request, BookRepository $bookRepository): Response
     {
-        $searchTerm = $request->query->get('query');
+        $searchTerm = $request->query->get('query', '');
+
         $books = $bookRepository->findBySearchTerm($searchTerm);
 
-        return $this->render('book/_book_list.html.twig', [
+        return $this->render('book/search_results.html.twig', [
             'books' => $books,
+            'searchTerm' => $searchTerm,
         ]);
     }
+
+
 
 }
