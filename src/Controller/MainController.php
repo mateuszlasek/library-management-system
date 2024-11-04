@@ -26,17 +26,30 @@ class MainController extends AbstractController
         $limit = 20;
         $offset = ($page - 1) * $limit;
 
-        $books = $bookRepository->findBy([], null, $limit, $offset);
-        $totalBooks = count($bookRepository->findAll());
+        $category = $request->query->get('category');
+
+        if ($category) {
+            $books = $bookRepository->findBy(['category' => $category], null, $limit, $offset);
+            $totalBooks = count($bookRepository->findBy(['category' => $category]));
+        } else {
+            $books = $bookRepository->findBy([], null, $limit, $offset);
+            $totalBooks = count($bookRepository->findAll());
+        }
+
         $totalPages = ceil($totalBooks / $limit);
+
+        $categories = $bookRepository->findDistinctCategories();
 
         return $this->render('book/books_list.html.twig', [
             'controller_name' => 'MainController',
             'books' => $books,
             'currentPage' => $page,
             'totalPages' => $totalPages,
+            'categories' => $categories, // Przekaż kategorie do szablonu
+            'selectedCategory' => $category, // Przekaż aktualnie wybraną kategorię
         ]);
     }
+
 
     #[Route('/my-account', name: 'app_account')]
     public function account(BorrowRepository $borrowRepository): Response

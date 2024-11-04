@@ -27,4 +27,12 @@ class BookRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findDistinctCategories()
+    {
+        return $this->createQueryBuilder('b')
+            ->select('DISTINCT b.category')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
