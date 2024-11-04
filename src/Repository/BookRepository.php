@@ -6,9 +6,6 @@ use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Book>
- */
 class BookRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,12 +13,18 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    public function findAvailableBooks(): array
+    /**
+     * Find books by search term in title or author.
+     */
+    public function findBySearchTerm(string $searchTerm): array
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.status = :status')
-            ->setParameter('status', 'available')
-            ->getQuery()
-            ->getResult();
+        dump($searchTerm);  // Dodaj ten wiersz
+
+        $qb = $this->createQueryBuilder('b');
+        $qb->where('b.title LIKE :searchTerm OR b.author LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . $searchTerm . '%');
+
+        return $qb->getQuery()->getResult();
     }
+
 }

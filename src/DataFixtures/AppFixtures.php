@@ -35,7 +35,6 @@ class AppFixtures extends Fixture
                 $book->setAuthor(isset($volumeInfo['authors']) ? implode(', ', $volumeInfo['authors']) : 'Unknown Author');
                 $book->setDescription($volumeInfo['description'] ?? 'No description available');
                 $book->setCategory(isset($volumeInfo['categories']) ? implode(', ', $volumeInfo['categories']) : 'General');
-                $book->setStatus('available');
                 $book->setQuantity(rand(1, 10));
 
                 $imageLinks = $volumeInfo['imageLinks'] ?? null;
@@ -55,7 +54,6 @@ class AppFixtures extends Fixture
                             $book->setFileName($fileName);
                         }
                     } catch (\Exception $e) {
-                        $this->logger->error('Error downloading image for book "' . $book->getTitle() . '": ' . $e->getMessage());
                     }
                 }
 
