@@ -19,6 +19,8 @@ class AdminController extends AbstractController
     #[Route('/admin/dashboard', name: 'admin_dashboard')]
     public function dashboard(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('admin/admin_dashboard.html.twig');
     }
 

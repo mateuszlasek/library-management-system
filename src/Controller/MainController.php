@@ -45,8 +45,8 @@ class MainController extends AbstractController
             'books' => $books,
             'currentPage' => $page,
             'totalPages' => $totalPages,
-            'categories' => $categories, // Przekaż kategorie do szablonu
-            'selectedCategory' => $category, // Przekaż aktualnie wybraną kategorię
+            'categories' => $categories,
+            'selectedCategory' => $category,
         ]);
     }
 
